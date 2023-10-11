@@ -1,12 +1,12 @@
-# version-polling
+# version-web
 
-> 一个用于实时检测 web 应用更新的 JavaScript 库
+> 用于实时检测 web 应用页面代码更新的 JavaScript 库
 
 以下内容是通过 NewBing 润色过的 😊
 
 ## 前言
 
-version-polling 是一个轻量级的 JavaScript 库，它可以实时检测 web 应用的 index.html 文件内容是否有变化。当服务端发布新版本后，前端会自动弹出更新提示，让用户刷新页面，以加载最新的资源和功能。这样可以提高用户体验和数据准确性。
+version-web 是一个轻量级的 JavaScript 库，它可以实时检测 web 应用的 index.html 文件内容是否有变化。当服务端发布新版本后，前端会自动弹出更新提示，让用户刷新页面，以加载最新的资源和功能。这样可以提高用户体验和数据准确性。
 
 ## 设计目的
 
@@ -42,7 +42,7 @@ maintained node versions
 
 ```shell
 # 本地项目安装
-npm install version-polling --save
+npm install version-web --save
 ```
 
 ## 使用
@@ -51,11 +51,11 @@ npm install version-polling --save
 
 ```javascript
 // 在应用入口文件中使用: 如 main.js, app.jsx
-import { createVersionPolling } from "version-polling";
+import { createVersionPolling } from "version-web";
 
 createVersionPolling({
   appETagKey: "__APP_ETAG__",
-  pollingInterval: 5 * 1000, // 单位为毫秒
+  webInterval: 5 * 1000, // 单位为毫秒
   silent: process.env.NODE_ENV === "development", // 开发环境下不检测
   onUpdate: (self) => {
     // 当检测到有新版本时，执行的回调函数，可以在这里提示用户刷新页面
@@ -82,11 +82,11 @@ createVersionPolling({
     <title>前端页面自动检测更新-示例</title>
   </head>
   <body>
-    <script src="//unpkg.com/version-polling/dist/version-polling.min.js"></script>
+    <script src="//unpkg.com/version-web/dist/version-web.min.js"></script>
     <script>
       VersionPolling.createVersionPolling({
         appETagKey: "__APP_ETAG__",
-        pollingInterval: 5 * 1000,
+        webInterval: 5 * 1000,
         onUpdate: (self) => {
           // 当检测到有新版本时，执行的回调函数，可以在这里提示用户刷新页面
           const result = confirm("页面有更新，点击确定刷新页面！");
@@ -111,7 +111,7 @@ Options
 | 参数            | 说明                                     | 类型         | 默认值                                   |
 | --------------- | ---------------------------------------- | ------------ | ---------------------------------------- |
 | appETagKey      | web 应用更新唯一标识字段名               | `string`     | `__APP_ETAG__`                           |
-| pollingInterval | 轮询间隔，单位为毫秒，默认为 5 分钟      | `number`     | `5 * 60 * 1000 `                         |
+| webInterval | 轮询间隔，单位为毫秒，默认为 5 分钟      | `number`     | `5 * 60 * 1000 `                         |
 | immediate       | 初始化后, 立即触发实时监测               | `boolean`    | `true`                                   |
 | htmlFileUrl     | web 应用网站运行目录                     | `string`     | `${location.origin}${location.pathname}` |
 | silent          | 安静模式，为`true`时，不会进行实时监测   | `boolean`    | `false`                                  |
@@ -119,7 +119,7 @@ Options
 
 ## 注意事项
 
-- version-polling 需要在支持 web worker 和 fetchAPI 的浏览器中运行，不支持 IE 浏览器
-- version-polling 需要在 web 应用的入口文件（通常是 index.html）中引入，否则无法检测到更新
-- version-polling 需要在 web 应用的服务端配置协商缓存，否则无法命中缓存，会增加网络请求
-- version-polling 需要在 web 应用的服务端保证每次发版后，index.html 文件的 etag 字段值会改变，否则无法检测到更新
+- version-web 需要在支持 web worker 和 fetchAPI 的浏览器中运行，不支持 IE 浏览器
+- version-web 需要在 web 应用的入口文件（通常是 index.html）中引入，否则无法检测到更新
+- version-web 需要在 web 应用的服务端配置协商缓存，否则无法命中缓存，会增加网络请求
+- version-web 需要在 web 应用的服务端保证每次发版后，index.html 文件的 etag 字段值会改变，否则无法检测到更新
